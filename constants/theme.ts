@@ -31,7 +31,7 @@ export const Fonts = Platform.select({
   ios: {
     /** iOS `UIFontDescriptorSystemDesignDefault` */
     sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
+    /** iOS `UIFontDescriptorSystemDesrif` */
     serif: 'ui-serif',
     /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: 'ui-rounded',
