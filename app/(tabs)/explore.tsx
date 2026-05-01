@@ -1,112 +1,162 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { Collapsible } from '@/components/ui/collapsible';
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
+const shoppingGroups = [
+  {
+    title: 'This week',
+    items: ['Detergent', 'Dish sponge', 'Toothpaste'],
+    color: '#C77759',
+  },
+  {
+    title: 'Pantry watch',
+    items: ['Rice below 3 units', 'Cooking oil halfway', 'Tea bags running low'],
+    color: '#346C5B',
+  },
+  {
+    title: 'Home reset',
+    items: ['Check bathroom shelf', 'Restock cleaners', 'Review expired items'],
+    color: '#6E668A',
+  },
+];
 
-export default function TabTwoScreen() {
+export default function ShoppingScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image
-          source={require('@/assets/images/react-logo.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.eyebrow}>HomeShelf</Text>
+          <Text style={styles.title}>Shopping plan</Text>
+          <Text style={styles.subtitle}>
+            Keep the next restock simple with grouped household priorities.
+          </Text>
+        </View>
+
+        <View style={styles.heroPanel}>
+          <View style={styles.heroIcon}>
+            <Ionicons name="cart" size={28} color="#FFFDF8" />
+          </View>
+          <View style={styles.heroText}>
+            <Text style={styles.heroNumber}>9</Text>
+            <Text style={styles.heroLabel}>Suggested checks</Text>
+          </View>
+        </View>
+
+        {shoppingGroups.map((group) => (
+          <View key={group.title} style={styles.groupPanel}>
+            <View style={styles.groupHeader}>
+              <View style={[styles.groupDot, { backgroundColor: group.color }]} />
+              <Text style={styles.groupTitle}>{group.title}</Text>
+            </View>
+            {group.items.map((item) => (
+              <View key={item} style={styles.groupItem}>
+                <Ionicons name="checkmark-circle-outline" size={20} color={group.color} />
+                <Text style={styles.groupItemText}>{item}</Text>
+              </View>
+            ))}
+          </View>
+        ))}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#F6F1E8',
   },
-  titleContainer: {
+  container: {
+    padding: 18,
+    paddingBottom: 32,
+  },
+  header: {
+    marginBottom: 16,
+  },
+  eyebrow: {
+    color: '#346C5B',
+    fontSize: 14,
+    fontWeight: '700',
+    letterSpacing: 0,
+    textTransform: 'uppercase',
+  },
+  title: {
+    color: '#242824',
+    fontSize: 30,
+    fontWeight: '800',
+    lineHeight: 36,
+    marginTop: 4,
+  },
+  subtitle: {
+    color: '#766E64',
+    fontSize: 15,
+    fontWeight: '600',
+    lineHeight: 22,
+    marginTop: 8,
+  },
+  heroPanel: {
+    alignItems: 'center',
+    backgroundColor: '#2F463E',
+    borderRadius: 8,
     flexDirection: 'row',
-    gap: 8,
+    gap: 14,
+    marginBottom: 14,
+    padding: 18,
+  },
+  heroIcon: {
+    alignItems: 'center',
+    backgroundColor: '#346C5B',
+    borderRadius: 8,
+    height: 54,
+    justifyContent: 'center',
+    width: 54,
+  },
+  heroText: {
+    flex: 1,
+  },
+  heroNumber: {
+    color: '#FFFDF8',
+    fontSize: 28,
+    fontWeight: '900',
+  },
+  heroLabel: {
+    color: '#DCE8E2',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  groupPanel: {
+    backgroundColor: '#FFFDF8',
+    borderColor: '#E4DCCD',
+    borderRadius: 8,
+    borderWidth: 1,
+    marginBottom: 12,
+    padding: 14,
+  },
+  groupHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 10,
+  },
+  groupDot: {
+    borderRadius: 5,
+    height: 10,
+    width: 10,
+  },
+  groupTitle: {
+    color: '#242824',
+    fontSize: 17,
+    fontWeight: '800',
+  },
+  groupItem: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 10,
+    paddingVertical: 8,
+  },
+  groupItemText: {
+    color: '#4E4740',
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '600',
   },
 });
